@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modifica Ingrediente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelector('form').addEventListener('submit', function () {
+        const stockInput = document.querySelector('input[name="ingredient[giacenza]"]');
+        if (stockInput) {
+            stockInput.value = stockInput.value.replace(',', '.');
+        }
+    });
+});
+</script>
+<body>
+
+<div class="container mt-5">
+    <h1 class="text-center">Modifica Ingrediente</h1>
+
+    <%= form_with(model: @ingredient, local: true) do |form| %>
+      <% if @ingredient.errors.any? %>
+        <div id="error_explanation" class="alert alert-danger">
+          <h2><%= pluralize(@ingredient.errors.count, "errore") %> è avvenuto:</h2>
+          <ul>
+            <% @ingredient.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
+    
+      <div class="mb-3">
+        <%= form.label :nome, class: 'form-label' %>
+        <%= form.text_field :nome, class: 'form-control' %>
+      </div>
+    
+      <div class="mb-3">
+        <%= form.label :giacenza, class: 'form-label' %>
+        <%= form.number_field :giacenza, class: 'form-control', step: '0.01',min:'0' %>
+      </div>
+    
+      <div class="mb-3">
+        <%= form.label :unita_di_misura, class: 'form-label' %>
+        <%= form.text_field :unita_di_misura, class: 'form-control' %>
+      </div>
+    
+      <div class="d-grid">
+        <%= form.submit "Aggiorna", class: "btn btn-primary" %>
+      </div>
+      <div class="mt-3">
+      <%= link_to 'Annulla', ingredients_path, class: 'btn btn-secondary' %>
+    </div>
+      <%= link_to '<i class="fas fa-home"></i>'.html_safe, root_path, class: 'home-button' %>
+    <% end %>
+    
+</div>
+
+</body>
+</html>

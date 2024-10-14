@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ingredienti</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<h1>Ingredienti</h1>
+<% if flash[:notice] %>
+  <div class="alert alert-success">
+    <%= flash[:notice] %>
+  </div>
+<% end %>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Nome</th>
+      <th>Giacenza</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+  <% @ingredients.each do |ingredient| %>
+    <tr>
+      <td><%= ingredient.nome %></td>
+      <td><%= ingredient.giacenza %> <%= ingredient.unita_di_misura %></td>
+      <td class="action-icons">
+        <%= link_to edit_ingredient_path(ingredient), class: 'action-icon edit' do %>
+          <i class="fas fa-edit"></i>
+        <% end %>
+        <%= form_with model: ingredient, url: ingredient_path(ingredient), method: :delete, local: true do %>
+          <%= button_tag type: 'submit', class: 'btn btn-danger action-icon delete' do %>
+            <i class="fas fa-trash"></i>  
+          <% end %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+  <%= link_to '<i class="fas fa-plus"></i>'.html_safe, new_ingredient_path, class: 'add-button'%>
+<%= link_to '<i class="fas fa-home"></i>'.html_safe, root_path, class: 'home-button' %>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modifica Ordine</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.form-check-input').forEach(function (checkbox) {
+        const quantityField = document.getElementById('quantity_' + checkbox.value);
+        
+        quantityField.style.display = checkbox.checked ? 'block' : 'none';
+
+        checkbox.addEventListener('change', function () {
+          if (this.checked) {
+            quantityField.style.display = 'block'; 
+            quantityField.querySelector('input').setAttribute('required', 'required');
+          } else {
+            quantityField.style.display = 'none';   
+            quantityField.querySelector('input').removeAttribute('required');
+          }
+        });
+      });
+
+      document.querySelector('form').addEventListener('submit', function () {
+        const priceInput = document.querySelector('input[name="order[prezzo]"]');
+        if (priceInput) {
+          priceInput.value = priceInput.value.replace(',', '.');
+        }
+
+        document.querySelectorAll('input[name^="order[brought_quantities]"]').forEach(function (input) {
+          input.value = input.value.replace(',', '.'); 
+        });
+      });
+    });
+  </script>
+  </head>
+<body>
+
+<div class="container">
+  <h1>Modifica Ordine</h1>
+
+  <%= form_with model: @order, local: true do |form| %>
+    <div class="mb-3">
+      <%= form.label :table_id, "Tavolo", class: 'form-label' %>
+      <%= form.collection_select :table_id, @tables, :id, :numero, { prompt: 'Seleziona Tavolo' }, class: 'form-control' %>
+    </div>
+
+    <div class="mb-3">
+      <%= label_tag :brought_ids, "Portate", class: 'form-label' %>
+      <% @broughts.each do |brought| %>
+        <div class="form-check">
+          <%= check_box_tag "order[brought_ids][]", brought.id, @order.brought_ids.include?(brought.id), id: "brought_#{brought.id}", class: 'form-check-input' %>
+          <%= label_tag "brought_#{brought.id}", brought.nome, class: 'form-check-label' %>
+          <div class="quantity-input" id="quantity_<%= brought.id %>">
+            <%= text_field_tag "order[brought_quantities][#{brought.id}]", 
+                @order.brought_quantities[brought.id], 
+                placeholder: "Quantità", 
+                class: 'form-control d-inline', 
+                style: 'width: auto;', 
+                type: 'number', 
+                step: '1',
+                min:'1' %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+
+    <%= form.submit "Aggiorna Ordine", class: 'btn btn-primary' %>
+  <% end %>
+
+  <div class="mt-3">
+    <%= link_to 'Annulla', orders_path, class: 'btn btn-secondary' %>
+  </div>
+  <%= link_to '<i class="fas fa-home"></i>'.html_safe, root_path, class: 'home-button' %>
+</div>
+
+</body>
+</html>

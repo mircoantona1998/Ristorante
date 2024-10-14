@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tavoli: one
+  data: 2024-10-12 17:36:10
+
+two:
+  tavoli: two
+  data: 2024-10-12 17:36:10

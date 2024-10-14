@@ -1,0 +1,9 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tavolo: one
+  data: 2024-10-12 16:41:04
+
+two:
+  tavolo: two
+  data: 2024-10-12 16:41:04

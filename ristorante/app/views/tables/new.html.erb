@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nuovo Tavolo</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="text-center">Nuovo Tavolo</h1>
+
+  <%= form_with(model: @table, url: tables_path, method: :post, local: true) do |form| %>
+    <% if @table.errors.any? %>
+      <div id="error_explanation" class="alert alert-danger">
+        <h2><%= pluralize(@table.errors.count, "errore") %> è avvenuto:</h2>
+        <ul>
+          <% @table.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <div class="mb-3">
+      <%= form.label :numero, class: 'form-label' %>
+      <%= form.number_field :numero, class: 'form-control',min:'0', required: true %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :posti, class: 'form-label' %>
+      <%= form.number_field :posti, class: 'form-control',min:'0', required: true %>
+    </div>
+
+    <div class="mb-3">
+      <%= form.label :disponibile, 'Disponibile', class: 'form-label' %>
+      <%= form.check_box :disponibile, class: 'form-check-input' %>
+    </div>
+
+    <div class="d-grid">
+      <%= form.submit "Aggiungi Tavolo", class: "btn btn-success" %>
+    </div>
+  <% end %>
+
+  <div class="mt-3">
+    <%= link_to 'Torna alla lista', tables_path, class: 'btn btn-secondary' %>
+  </div>
+  <%= link_to '<i class="fas fa-home"></i>'.html_safe, root_path, class: 'home-button' %>
+</div>
+
+</body>
+</html>

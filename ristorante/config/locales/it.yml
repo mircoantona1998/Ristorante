@@ -1,0 +1,8 @@
+it:
+  number:
+    currency:
+      format:
+        delimiter: '.'
+        separator: ','
+        unit: '€'
+        format: "%u%n"

@@ -1,0 +1,10 @@
+{
+    "name": "Ristorante",
+    "short_name": "Ristorante",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff",
+    "description": "Applicazione di gestione ristorante"
+  }
+  
